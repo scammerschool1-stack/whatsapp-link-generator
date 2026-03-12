@@ -1,65 +1,164 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>WhatsApp Link Generator</title>
-<style>
-body {
-  font-family: Arial;
-  text-align: center;
-  margin-top: 100px;
-}
-input {
-  padding: 10px;
-  width: 260px;
-  font-size: 16px;
-}
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin-top: 10px;
-  cursor: pointer;
-}
-#result {
-  margin-top: 20px;
-  font-size: 16px;
-  word-break: break-word;
-  text-align: left;
-  display: inline-block;
-}
-</style>
+  <title>WhatsApp Link Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #25D366;
+      color: white;
+      padding: 20px 0;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    main {
+      margin: 40px auto;
+      max-width: 500px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    input[type="text"] {
+      width: 90%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #1ebe57;
+    }
+
+    #result {
+      margin-top: 20px;
+      text-align: left;
+      font-size: 16px;
+    }
+
+    .link-box {
+      background-color: #e0ffe0;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      word-break: break-word;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .link-box input {
+      border: none;
+      background: none;
+      font-family: monospace;
+      font-size: 14px;
+      width: 80%;
+    }
+
+    .copy-btn {
+      background-color: #128C7E;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .copy-btn:hover {
+      background-color: #0f7b66;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        width: 90%;
+        padding: 20px;
+      }
+    }
+
+  </style>
 </head>
+
 <body>
+  <header>
+    WhatsApp Link Generator
+  </header>
 
-<h2>WhatsApp Link Generator</h2>
-<p>Enter business phone number with country code:</p>
-<input id="number" placeholder="2348012345678">
-<br><br>
-<button onclick="generate()">Generate Link</button>
+  <main>
+    <p>Enter business phone number with country code:</p>
+    <input type="text" id="number" placeholder="2348012345678">
+    <br>
+    <button onclick="generate()">Generate Link</button>
 
-<div id="result"></div>
+    <div id="result"></div>
+  </main>
 
-<script>
-function generate() {
-  let number = document.getElementById("number").value.trim();
+  <footer>
+    Powered by Ðarlingtøn
+  </footer>
 
-  if (!number) {
-    alert("Please enter a phone number!");
-    return;
-  }
+  <script>
+    function generate() {
+      let number = document.getElementById("number").value.trim();
 
-  // Message to appear when someone taps the WhatsApp link
-  let message = "From Ðarlingtøn\nSave As";
-  let encoded = encodeURIComponent(message);
+      if(!number) {
+        alert("Please enter a phone number!");
+        return;
+      }
 
-  // Generate the WhatsApp link
-  let link = "https://wa.me/" + number + "?text=" + encoded;
+      let message = "From Ðarlingtøn\nSave As";
+      let encoded = encodeURIComponent(message);
+      let link = "https://wa.me/" + number + "?text=" + encoded;
 
-  // Show the link as text only (not clickable)
-  document.getElementById("result").innerHTML = 
-      "<p>Links = </p>" + 
-      "<p>" + link + "</p>";
-}
-</script>
+      // Display the link in a box with copy button
+      let html = `
+        <div class="link-box">
+          <input type="text" value="${link}" id="copyLink" readonly>
+          <button class="copy-btn" onclick="copyLink()">Copy</button>
+        </div>
+      `;
+      document.getElementById("result").innerHTML = html;
+    }
 
+    function copyLink() {
+      let copyText = document.getElementById("copyLink");
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile
+      document.execCommand("copy");
+      alert("Link copied to clipboard!");
+    }
+  </script>
 </body>
 </html>
