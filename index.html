@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WhatsApp Link Generator</title>
+
+<style>
+
+body{
+font-family: Arial;
+text-align:center;
+margin-top:100px;
+}
+
+input{
+padding:10px;
+width:250px;
+font-size:16px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+margin-top:10px;
+cursor:pointer;
+}
+
+a{
+display:block;
+margin-top:20px;
+font-size:18px;
+color:green;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>WhatsApp Link Generator</h2>
+
+<p>Enter phone number with country code</p>
+
+<input id="number" placeholder="2348012345678">
+
+<br><br>
+
+<button onclick="generate()">Generate Link</button>
+
+<a id="result" target="_blank"></a>
+
+<script>
+
+function generate(){
+
+let number=document.getElementById("number").value;
+
+let message="From Ðarlingtøn Save As";
+
+let encoded=encodeURIComponent(message);
+
+let link="https://wa.me/"+number+"?text="+encoded;
+
+document.getElementById("result").href=link;
+
+document.getElementById("result").innerHTML="Open WhatsApp Link";
+
+}
+
+</script>
+
+</body>
+</html>
