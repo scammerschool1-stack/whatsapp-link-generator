@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>WhatsApp Link Generator</title>
+<title>WhatsApp Business Link Generator</title>
+
 <style>
 body{
 font-family: Arial;
@@ -11,49 +12,67 @@ margin-top:100px;
 
 input{
 padding:10px;
-width:250px;
+width:260px;
+font-size:16px;
 }
 
 button{
 padding:10px 20px;
+font-size:16px;
 margin-top:10px;
+cursor:pointer;
 }
 
-a{
-display:block;
+#result{
 margin-top:20px;
 font-size:18px;
+word-break: break-all;
 }
+
 </style>
 </head>
 
 <body>
 
-<h2>WhatsApp Link Generator</h2>
+<h2>WhatsApp Business Link Generator</h2>
 
-<input type="text" id="number" placeholder="Enter number with country code">
+<p>Enter business phone number</p>
 
-<br>
+<input id="number" placeholder="2348012345678">
 
-<button onclick="generate()">Generate Link</button>
+<br><br>
 
-<a id="result" target="_blank"></a>
+<button onclick="generate()">Generate WhatsApp Link</button>
+
+<div id="result"></div>
 
 <script>
 function generate(){
+    let number = document.getElementById("number").value.trim();
 
-let number=document.getElementById("number").value;
+    if(!number){
+        alert("Please enter a phone number!");
+        return;
+    }
 
-let message="From Ðarlingtøn Save As";
+    let message = "From Ðarlingtøn\nSave As";
+    let encoded = encodeURIComponent(message);
 
-let encoded=encodeURIComponent(message);
+    let link = "https://wa.me/" + number + "?text=" + encoded;
 
-let link="https://wa.me/"+number+"?text="+encoded;
+    // Instead of linking immediately, show the link as text
+    document.getElementById("result").innerHTML =
+        '<p>Copy this link and share it:</p>' +
+        '<input type="text" value="'+link+'" id="copyLink" readonly style="width:80%;padding:8px;">' +
+        '<br><br><button onclick="copyLink()">Copy Link</button>';
+}
 
-document.getElementById("result").href=link;
-
-document.getElementById("result").innerHTML=link;
-
+function copyLink(){
+    let copyText = document.getElementById("copyLink");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    document.execCommand("copy");
+    alert("Link copied to clipboard!");
 }
 </script>
 
